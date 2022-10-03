@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Bean.TenderBean;
+import Bean.TenderStatusBean;
 import Bean.VendorBean;
 import USERDEFINEEXCEPTION.AdminstratorException;
 import USERDEFINEEXCEPTION.TenderException;
@@ -235,6 +236,150 @@ public class AdministratorDaoImpl implements AdministratorDao{
     
 	return tenderlist;	
 	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public List<TenderStatusBean> ViewAlltheBidstender(int TenderId) {
+    List<TenderStatusBean> tenderliList=new ArrayList<>();
+  
+		
+		try(Connection conn=DBUtility.provideConnection()) {
+			
+			
+			PreparedStatement ps=conn.prepareStatement(" select b.bidid,b.bidAmount,t.tenderid,v.vendorid,t.name,v.vendorName,b.bidstatus from vendor v INNER JOIN tender t INNER JOIN bidder b ON v.vendorid=b.vendorid AND t.tenderid=b.tenderid AND  t.tenderid=?");
+			ps.setInt(1,TenderId);
+			ResultSet rs=ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				 int bidid1=rs.getInt("bidid"); 
+				 int tenderid=rs.getInt("tenderid");
+				 int vendorid=rs.getInt("vendorid");
+				 int amount=rs.getInt("bidAmount");
+				 String name=rs.getString("name");
+				 
+				 String vendorName=rs.getString("vendorName");
+				 String bidstatus=rs.getString("bidstatus");
+				
+				TenderStatusBean statusBean=new TenderStatusBean(bidid1,tenderid, vendorid, name, vendorName, bidstatus,amount);
+				 
+				 tenderliList.add(statusBean);
+				 
+			}
+         
+			
+			
+			
+			
+			
+		} catch (SQLException e) {
+			
+			System.out.println(e.getMessage());
+		}
+		
+		
+		
+		  if(tenderliList.size()==0) {
+				
+				System.out.println("invalid vendor id");
+			}
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return tenderliList;
+		
+	}
+
+	@Override
+	public TenderStatusBean assigntender(int tenderid, int vendorid, int bidid) throws TenderException {
+	
+		
+		
+		
+		TenderStatusBean statusBean=null;
+		
+		try(Connection conn=DBUtility.provideConnection()) {
+			PreparedStatement ps1=conn.prepareStatement("update bidder set bidstatus='Yes' where  tenderid=? AND vendorid=? AND bidid=? AND bidstatus='No';");
+			ps1.setInt(1,tenderid);
+			ps1.setInt(2,vendorid);
+			ps1.setInt(3,bidid);
+			int rs1=ps1.executeUpdate();
+			
+			if(rs1>0) {
+				
+				PreparedStatement ps=conn.prepareStatement("select b.bidid,t.tenderid,v.vendorid,t.name,v.vendorName,b.bidstatus from vendor v INNER JOIN tender t INNER JOIN bidder b ON v.vendorid=b.vendorid AND t.tenderid=b.tenderid AND t.tenderid=? AND v.vendorid=? AND b.bidid=?");
+				ps.setInt(1,tenderid);
+				ps.setInt(2,vendorid);
+				ps.setInt(3,bidid);
+				ResultSet rs=ps.executeQuery();
+	         
+				
+				if(rs.next()){
+				
+				int bidid1=rs.getInt("bidid"); 
+				 int tenderid1=rs.getInt("tenderid");
+				 int vendorid1=rs.getInt("vendorid");
+				 String name=rs.getString("name");
+				 String vendorName=rs.getString("vendorName");
+				 String bidstatus=rs.getString("bidstatus");
+				
+				 statusBean=new TenderStatusBean(bidid1,tenderid, vendorid, name, vendorName, bidstatus);
+				}
+				else {
+					
+					throw new TenderException("Technical Error...");
+				}
+				
+				
+			}
+			else {
+				
+				throw new TenderException("please enter a valid value");
+			}
+			}catch (SQLException e) {
+			
+			System.out.println(e.getMessage());
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return statusBean;
+	}
+		
+		
+		
+		
 
 	
 	

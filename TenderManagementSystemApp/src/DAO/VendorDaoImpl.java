@@ -261,6 +261,74 @@ public class VendorDaoImpl implements VendorDao {
 	
 	
 	
+	
+	
+	
+	@Override
+	public List<TenderStatusBean> ViewhisownBid(int vendorId) {
+		
+		List<TenderStatusBean> tenderliList=new ArrayList<>();
+  
+		
+		try(Connection conn=DBUtility.provideConnection()) {
+			
+			
+			PreparedStatement ps=conn.prepareStatement(" select b.bidid,t.tenderid,v.vendorid,t.name,v.vendorName,b.bidstatus from vendor v INNER JOIN tender t INNER JOIN bidder b ON v.vendorid=b.vendorid AND t.tenderid=b.tenderid AND  v.vendorid=?");
+			ps.setInt(1,vendorId);
+			ResultSet rs=ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				 int bidid1=rs.getInt("bidid"); 
+				 int tenderid=rs.getInt("tenderid");
+				 int vendorid=rs.getInt("vendorid");
+				 String name=rs.getString("name");
+				 String vendorName=rs.getString("vendorName");
+				 String bidstatus=rs.getString("bidstatus");
+				
+				TenderStatusBean statusBean=new TenderStatusBean(bidid1,tenderid, vendorid, name, vendorName, bidstatus);
+				 
+				 tenderliList.add(statusBean);
+				 
+			}
+         
+			
+			
+			
+			
+			
+		} catch (SQLException e) {
+			
+			System.out.println(e.getMessage());
+		}
+		
+		
+		
+		  if(tenderliList.size()==0) {
+				
+				System.out.println("invalid vendor id");
+			}
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return tenderliList;
+		
+		
+
+	}
+
+	
+	
+	
+	
 }
 
 

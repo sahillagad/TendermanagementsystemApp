@@ -16,7 +16,10 @@ public interface VendorDao {
 	
 	public String BidagainstTender(int vendorid,int tenderid,int bidAmount,String bidstatus) throws VendorException,TenderException;
 	
-	public  TenderStatusBean  ViewstatusBid(int  bidid);
+	public TenderStatusBean  ViewstatusBid(int  bidid);
+	
+	public  List<TenderStatusBean> ViewhisownBid(int vendorId);
+	
 	
 	
 	

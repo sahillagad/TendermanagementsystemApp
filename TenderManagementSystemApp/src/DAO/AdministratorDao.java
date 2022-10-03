@@ -3,6 +3,7 @@ package DAO;
 import java.util.List;
 
 import Bean.TenderBean;
+import Bean.TenderStatusBean;
 import Bean.VendorBean;
 import USERDEFINEEXCEPTION.AdminstratorException;
 import USERDEFINEEXCEPTION.TenderException;
@@ -21,4 +22,10 @@ public interface AdministratorDao {
 	public boolean CreateNewtenders(TenderBean tender)throws TenderException;
 	
 	public List<TenderBean> ViewAllTender() throws TenderException ;
+	
+	public List<TenderStatusBean> ViewAlltheBidstender(int TenderId);
+	
+	public TenderStatusBean assigntender(int tenderid,int vendorid,int bidid)throws TenderException;
+	
+	
 }

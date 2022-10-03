@@ -4,35 +4,28 @@ import java.util.List;
 import java.util.Scanner;
 
 import Bean.TenderStatusBean;
-import DAO.AdministratorDao;
-import DAO.AdministratorDaoImpl;
 import DAO.VendorDao;
 import DAO.VendorDaoImpl;
 
-public class ViewAllBidsOfTender {
+public class showhistory {
 
-	
 	public static void main(String[] args) {
 		
 		
-
 		  System.out.println("---- Welcome  ----");
 			
 			Scanner sc=new Scanner(System.in);
-			System.out.println("Enter Tender id");
+			System.out.println("Enter Vendor id");
 			int id=sc.nextInt();
+			VendorDao dao=new VendorDaoImpl();
 			
-			AdministratorDao aDao=new AdministratorDaoImpl();
-			 
-			List<TenderStatusBean> list=aDao.ViewAlltheBidstender(id);
+			List<TenderStatusBean> list=dao.ViewhisownBid(id);
 			
-		  
 			for(TenderStatusBean t:list) {
 			System.out.println("BidderId    : "+t.getBidderId());
-			System.out.println("VendorId    : "+t.getVendorId());
-			System.out.println("Vendor Name : "+t.getVendorname());
-		    System.out.println("Bid Amount  : "+t.getAmount());
-			
+			System.out.println("TendorId    : " +t.getTendorId());
+			System.out.println("Tendername  : "+t.getTendername());
+			System.out.println("Status      : "+t.getStatus());
 			
 			 System.out.println("=================================================");
 			}

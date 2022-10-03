@@ -8,9 +8,23 @@ public class TenderStatusBean {
 	private String tendername;
 	private String vendorname;
     private String status;
+    private int amount;
     
     
     
+    
+
+	public TenderStatusBean(int bidderId, int tendorId, int vendorId, String tendername, String vendorname,
+			String status, int amount) {
+		super();
+		this.bidderId = bidderId;
+		this.tendorId = tendorId;
+		this.vendorId = vendorId;
+		this.tendername = tendername;
+		this.vendorname = vendorname;
+		this.status = status;
+		this.amount = amount;
+	}
 	public TenderStatusBean(int bidderId, int tendorId, int vendorId, String tendername, String vendorname,
 			String status) {
 		super();
@@ -20,6 +34,13 @@ public class TenderStatusBean {
 		this.tendername = tendername;
 		this.vendorname = vendorname;
 		this.status = status;
+	}
+	
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 	public int getBidderId() {
 		return bidderId;

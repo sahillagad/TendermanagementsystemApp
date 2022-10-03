@@ -9,7 +9,7 @@ import DAO.VendorDaoImpl;
 public class bidstatus {
 
 	public static void main(String[] args) {
-		   System.out.println("---- Welcome  ----");
+		        System.out.println("---- Welcome  ----");
 			
 				Scanner sc=new Scanner(System.in);
 				System.out.println("Enter Bid id");
